@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benchmark</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        #message-form,
+        #search-filter-and-sort-container,
+        #cards-container {
+            margin: 3rem;
+        }
+        .card {
+            margin: 1rem 0;
+            padding: 1rem;
+            border: 1px solid black;
+            line-height: 175%;
+        }
+    </style>
+</head>
+<body>
+    <form id="message-form">
+        <input type="text" placeholder="Post a Message..." id="messageInput">
+        <input type="submit" value="➕">
+    </form>
+
+    <div id="search-filter-and-sort-container">
+        <form style="margin-bottom: 1rem; padding: 0;">
+            <input type="text" placeholder="Search" id="searchInput">
+            <input type="submit" value="🔍">
+        </form>
+    
+        <button>My Messages</button>
+        <button>Today</button>
+        <button>Latest to Earliest</button>
+        <button>Earliest to Latest</button>
+    </div>
+
+    <div id="cards-container">
+        <div class="card">
+            User<br>
+            ...<br>
+            DD-MM-YY
+        </div>
+        <div class="card">
+            Me<br>
+            ...<br>
+            DD-MM-YY<br>
+            <button>✏️</button>
+            <button>❌</button>
+        </div>
+        <div class="card">
+            User<br>
+            ...<br>
+            DD-MM-YY
+        </div>
+        <div class="card">
+            User<br>
+            ...<br>
+            DD-MM-YY
+        </div>
+    </div>
+</body>
+</html>
