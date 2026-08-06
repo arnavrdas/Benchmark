@@ -8,7 +8,7 @@
         body {
             margin: 0;
         }
-        #message-form,
+        #message-input-container,
         #search-filter-and-sort-container,
         #cards-container {
             margin: 3rem;
@@ -22,46 +22,109 @@
     </style>
 </head>
 <body>
-    <form id="message-form">
-        <input type="text" placeholder="Post a Message..." id="messageInput">
-        <input type="submit" value="➕">
-    </form>
+    <div id="message-input-container">
+        <input type="text" placeholder="Post a Message..." id="message-input">
+        <button onclick="create()">➕</button>
+    </div>
 
+    <!-- Need a backend for this
     <div id="search-filter-and-sort-container">
-        <form style="margin-bottom: 1rem; padding: 0;">
-            <input type="text" placeholder="Search" id="searchInput">
-            <input type="submit" value="🔍">
-        </form>
+        <div style="margin-bottom: 1rem; padding: 0;">
+            <input type="text" placeholder="Search" id="search-input">
+            <button>🔍</button>
+        </div>
     
         <button>My Messages</button>
         <button>Today</button>
         <button>Latest to Earliest</button>
         <button>Earliest to Latest</button>
     </div>
+    -->
 
     <div id="cards-container">
-        <div class="card">
-            User<br>
-            ...<br>
-            DD-MM-YY
-        </div>
-        <div class="card">
-            Me<br>
-            ...<br>
-            DD-MM-YY<br>
-            <button>✏️</button>
-            <button>❌</button>
-        </div>
-        <div class="card">
-            User<br>
-            ...<br>
-            DD-MM-YY
-        </div>
-        <div class="card">
-            User<br>
-            ...<br>
-            DD-MM-YY
-        </div>
     </div>
+
+    <script>
+        const data = {
+            myId: "23",
+            store: [
+                { userID: "29", message: "...", createdAt: "2026-08-05T09:24:08.100Z", },
+                { userID: "10", message: "...", createdAt: "2026-08-04T09:24:08.100Z", },
+                { userID: "23", message: "...", createdAt: "2026-08-06T09:24:06.100Z", },
+                { userID: "28", message: "...", createdAt: "2026-08-06T09:24:08.100Z", },
+            ]
+        }
+        // ascendingSort()
+        read()
+
+        // Function Definitions
+        function create() {
+            const messageInput = document.getElementById("message-input")
+
+            if (messageInput.value != "") {
+
+                data.store.push({
+                    userID:  data.myId,
+                    message: messageInput.value,
+                    createdAt:    new Date().toISOString()
+                })
+                // ascendingSort()
+
+                messageInput.value = ""
+                read()
+            }
+        }
+
+        function read() {
+            const cardsContainer = document.getElementById("cards-container")
+            cardsContainer.innerHTML = ""
+    
+            data.store.forEach((element, index) => {
+                const card = document.createElement("div");
+                card.classList.add("card")
+                cardsContainer.appendChild(card)
+
+                const localDate = new Date(element.createdAt).toLocaleDateString();
+
+                if (element.userID === data.myId) {
+                    card.innerHTML = `
+                        Me<br>
+                        ${element.message}<br>
+                        ${localDate}<br>
+                        <button onclick="update(${index})">✏️</button>
+                        <button onclick="destroy(${index})">❌</button>
+                    `
+                }
+                else {
+                    card.innerHTML = `
+                        User #${element.userID}<br>
+                        ${element.message}<br>
+                        ${localDate}
+                    `
+                }
+            })
+        }
+
+        function update(index) {
+            const newMessage = prompt(
+                "Edit your message:",
+                data.store[index].message
+            )
+            if (newMessage !== null && newMessage.trim() !== "") {
+                data.store[index].message = newMessage
+                read()
+            }
+        }
+
+        function destroy(index) { // 'delete' is a reserved word.
+            data.store.splice(index, 1)
+            read()
+        }
+
+        // function ascendingSort() {
+        //     data.store.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+        // }
+
+    </script>
 </body>
 </html>
