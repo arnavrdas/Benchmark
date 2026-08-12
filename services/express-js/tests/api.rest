@@ -7,3 +7,12 @@ Content-Type: application/json
   "email": "arnav@gmail.com",
   "password": "pwd123"
 }
+
+### Login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "arnav@gmail.com",
+  "password": "pwd123"
+}

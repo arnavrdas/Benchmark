@@ -4,10 +4,10 @@ import { Router } from "express";
 import { validate } from "../../shared/middlewares/validation.middleware.js";
 
 // Schemas
-import { registerSchema } from "./auth.schemas.js";
+import { loginSchema, registerSchema } from "./auth.schemas.js";
 
 // Controllers
-import { ctlRegister } from "./auth.controller.js";
+import { ctlLogin, ctlRegister } from "./auth.controller.js";
 
 const authRouter = Router();
 
@@ -15,6 +15,12 @@ authRouter.post(
   "/register",
   validate(registerSchema),
   ctlRegister
+);
+
+authRouter.post(
+  "/login",
+  validate(loginSchema),
+  ctlLogin
 );
 
 export default authRouter;

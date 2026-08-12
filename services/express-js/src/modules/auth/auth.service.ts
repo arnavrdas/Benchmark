@@ -6,6 +6,7 @@ import { generateToken } from "../../shared/utils/jwt.util.js";
 // Types
 import type { 
   registerSchemaInput,
+  loginSchemaInput,
 } from "./auth.schemas.js";
 
 export async function svcRegister(req: registerSchemaInput) {
@@ -30,6 +31,26 @@ export async function svcRegister(req: registerSchemaInput) {
       email: email,
     });
   }
+}
+
+export async function svcLogin(req: loginSchemaInput) {
+
+  // Check if email is registered
+  const user = users.find(u => u.email === req.body.email);
+  if(!user) {
+    return "Email is not registered";
+  }
+
+  // Check if password is correct
+  if(req.body.password !== user.password) {
+    return "Incorrect password"
+  }
+
+  // Generate JWT token
+  return generateToken({
+    id:    user.id,
+    email: user.email
+  })
 }
 
 // Temp
