@@ -24,8 +24,9 @@ express-js
 │   ├── config/                       Application configurations which depend on the environment
 │   │
 │   └── shared/                       Shared code reused across modules
-│       ├── constants/                Fixed values used throughout the application
+│       ├── declarations/             Global TypeScript type definitions
 │       ├── middlewares/
+│       ├── types/                    TypeScript types
 │       └── utils/                    Helper functions
 │
 ├── tests/

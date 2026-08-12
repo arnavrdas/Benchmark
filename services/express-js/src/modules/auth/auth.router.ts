@@ -2,12 +2,13 @@ import { Router } from "express";
 
 // Middleware
 import { validate } from "../../shared/middlewares/validation.middleware.js";
+import { authenticate } from "../../shared/middlewares/auth.middleware.js";
 
 // Schemas
 import { loginSchema, registerSchema } from "./auth.schemas.js";
 
 // Controllers
-import { ctlLogin, ctlRegister } from "./auth.controller.js";
+import { ctlLogin, ctlRegister, authMiddlewareTest } from "./auth.controller.js";
 
 const authRouter = Router();
 
@@ -22,5 +23,11 @@ authRouter.post(
   validate(loginSchema),
   ctlLogin
 );
+
+authRouter.get(
+  "/test",
+  authenticate,
+  authMiddlewareTest
+)
 
 export default authRouter;

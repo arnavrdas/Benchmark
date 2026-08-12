@@ -16,3 +16,7 @@ Content-Type: application/json
   "email": "arnav@gmail.com",
   "password": "pwd123"
 }
+
+### Auth Middleware Test
+GET http://localhost:3000/auth/test
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJjMDMxZGNlLWI0ZGYtNDE4YS05MDU4LTEwZDE3ZjZiOTNkZiIsImVtYWlsIjoiYXJuYXZAZ21haWwuY29tIiwiaWF0IjoxNzg2NTM5MzAzLCJleHAiOjE3ODY1NDAyMDN9.rq7sQN24IbnlmQaQLi7C22rGdWA6JxsNgeXdIMp_fYY
