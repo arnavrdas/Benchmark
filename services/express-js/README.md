@@ -1,3 +1,9 @@
+## Features
+- *Authentication:* JWT access tokens
+- DX
+  - *Static Typing:* TypeScript
+  - *Request Validation:* Zod
+
 ## Project Structure
 ```
 express-js
@@ -6,7 +12,23 @@ express-js
 │   │
 │   ├── server                        1. Creates Express App. Starts the server. Forwards requests to Routers.
 │   │
-│   └── config/                       Application configurations which depend on the environment
+│   ├── modules/
+│   │   └── feature/
+│   │       ├── *.router              2. Validates schemas and forwards request to it's respective controller.
+│   │       ├── *.controller          3. Calls services, and sends back response.
+│   │       ├── *.validator           4. Validates request data.
+│   │       ├── *.service             5. Contains bussiness logic. Calls repositories for data oprations.
+│   │       ├── *.repository          6. Handles data operations. Communicates with database using Models/ORM.
+│   │       └── *.model               7. Defines database schemas & interacts with the database.
+│   │
+│   ├── config/                       Application configurations which depend on the environment
+│   │
+│   └── shared/                       Shared code reused across modules
+│       ├── constants/                Fixed values used throughout the application
+│       ├── middlewares/
+│       └── utils/                    Helper functions
+│
+├── tests/
 │
 ├── .env
 │
