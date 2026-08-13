@@ -2,7 +2,7 @@ import { Router } from "express";
 
 // Middleware
 import { validate } from "../../shared/middlewares/validation.middleware.js";
-import { authenticate } from "../../shared/middlewares/auth.middleware.js";
+import { authenticate } from "./auth.middleware.js";
 
 // Schemas
 import { loginSchema, registerSchema } from "./auth.schemas.js";

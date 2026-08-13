@@ -1,63 +1,71 @@
-import { v4 as uuid } from "uuid";
+import { v4 as uuid } from "uuid"
+import jwt from "jsonwebtoken"
 
-// Utils
-import { generateToken } from "../../shared/utils/jwt.util.js";
+// Config
+import env from "../../config/env.config.js"
+
+// Constants
+import { users } from "../../shared/constants/user.constant.js"
 
 // Types
-import type { 
-  registerSchemaInput,
-  loginSchemaInput,
-} from "./auth.schemas.js";
+import type { registerRequest, loginRequest } from "./auth.schemas.js"
+import type { userInterface } from "../../shared/types/user.type.js"
+import type { SignOptions } from "jsonwebtoken"
 
-export async function svcRegister(req: registerSchemaInput) {
+export async function svcFindUser(req: registerRequest | loginRequest) {
 
-  const alreadyRegistered = users.find(u => u.email === req.body.email);
+  const user = users.find(u => u.email === req.body.email)
 
-  if(alreadyRegistered) {
-    return "Email is already registered";
+  if (user) {
+    const data: userInterface = user
+    return {
+      exists: true,
+      data
+    }
   }
+
   else {
-    const id = uuid();
-    const email = req.body.email;
-
-    users.push({
-      id:       id,
-      email:    email,
-      password: req.body.password,
-    })
-
-    return generateToken({
-      id:    id,
-      email: email,
-    });
+    return {
+      exists: false
+    }
   }
 }
 
-export async function svcLogin(req: loginSchemaInput) {
+export async function svcRegister(req: registerRequest) {
 
-  // Check if email is registered
-  const user = users.find(u => u.email === req.body.email);
-  if(!user) {
-    return "Email is not registered";
+  const user: userInterface = {
+    id: uuid(),
+    email: req.body.email,
+    password: req.body.password,
   }
 
-  // Check if password is correct
-  if(req.body.password !== user.password) {
-    return "Incorrect password"
+  users.push(user)
+
+  return user
+}
+
+export async function svcCheckPassword(givenPassword: string, user: userInterface) {
+  if(givenPassword === user.password) {
+    return true
+  }
+  else return false
+}
+
+export async function svcGenerateToken(user: userInterface) {
+
+  // 
+  const options: SignOptions = {
+    expiresIn: env.JWT_EXPIRES_IN
   }
 
-  // Generate JWT token
-  return generateToken({
-    id:    user.id,
-    email: user.email
-  })
+  return {
+    AccessToken: jwt.sign(
+      {
+        id:    user.id,
+        email: user.email
+      },
+      env.JWT_SECRET,
+      options
+    )
+  }
 }
-
-// Temp
-interface usersInterface {
-  id: string;
-  email: string;
-  password: string;
-}
-
-const users: usersInterface[] = []

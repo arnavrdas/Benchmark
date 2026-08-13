@@ -8,7 +8,7 @@ export const registerSchema = z.object({
     role:     z.enum(["user", "admin"]).optional().default("user"),
   })
 })
-export type registerSchemaInput = z.infer<typeof registerSchema>;
+export type registerRequest = z.infer<typeof registerSchema>;
 
 export const loginSchema = z.object({
   body: z.object({
@@ -16,4 +16,4 @@ export const loginSchema = z.object({
     password: z.string()
   })
 })
-export type loginSchemaInput = z.infer<typeof loginSchema>;
+export type loginRequest = z.infer<typeof loginSchema>;

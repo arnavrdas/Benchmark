@@ -1,5 +1,9 @@
-## Features
+# Benchmark ー ExpressJS
+
+## User Features
 - *Authentication:* JWT access tokens
+
+## Developer Features
 - DX
   - *Static Typing:* TypeScript
   - *Request Validation:* Zod

@@ -1,19 +1,22 @@
-import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 // Config
 import env from "../../config/env.config.js";
 
+// Utils
+import { failure } from "../../shared/utils/httpResponse.util.js";
+
 // Types
-import type { AuthUser } from "../types/jwt.type.js";
+import type { NextFunction, Request, Response } from "express";
+import type { AuthUser } from "./auth.type.js";
 
 export function authenticate(req: Request, res: Response, next: NextFunction) {
   
-  const authHeader = req.headers.authorization;
-
+  
   // Check if Authorization Header exists
+  const authHeader = req.headers.authorization;
   if(!authHeader) {
-    return res.status(401).json({ response: "Missing Token" });
+    return failure(res, 401, "Missing token");
   }
 
   // Separate JWT token from "Bearer "
@@ -21,7 +24,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
 
   // Check if Authorization Header exists
   if(!token) {
-    return res.status(401).json({ response:"Invalid token format" });
+    return failure(res, 401, "Invalid token format");
   }
 
   try {
@@ -35,6 +38,6 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
     next();
   }
   catch(err) {
-    return res.status(401).json({ response: "Invalid Token" });
+    return failure(res, 401, "Invalid token")
   }
 }

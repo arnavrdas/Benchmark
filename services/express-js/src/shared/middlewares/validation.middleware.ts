@@ -1,6 +1,9 @@
 import type { NextFunction, Request, Response } from "express";
 import type { AnyZodObject } from "zod";
 
+// Utils
+import { failure } from "../utils/httpResponse.util.js";
+
 export const validate = (schema: AnyZodObject) => {
   
   return (req: Request, res: Response, next: NextFunction) => {
@@ -12,13 +15,15 @@ export const validate = (schema: AnyZodObject) => {
     });
 
     if (!result.success) {
-      // console.dir(result, { depth: null });
-      // console.log(result.error.issues);
-
-      return res.status(400).json({
-        message: "Validation failed",
-        errors: result.error.format(),
-      });
+      return failure(
+        res,
+        400,
+        "Validation failed",
+        result.error.issues.map(issue => ({
+          field:   issue.path.join("."),
+          message: issue.message,
+        }))
+      )
     }
 
     Object.assign(req, result.data);
