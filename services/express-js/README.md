@@ -7,6 +7,7 @@
 - DX
   - *Static Typing:* TypeScript
   - *Request Validation:* Zod
+  - *Global Error Handler Middleware + Custom Error Classes*
 
 ## Project Structure
 ```
@@ -28,7 +29,9 @@ express-js
 │   ├── config/                       Application configurations which depend on the environment
 │   │
 │   └── shared/                       Shared code reused across modules
+│       ├── constants/                Constant values
 │       ├── declarations/             Global TypeScript type definitions
+│       ├── errors/                   Custom error classes
 │       ├── middlewares/
 │       ├── types/                    TypeScript types
 │       └── utils/                    Helper functions

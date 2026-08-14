@@ -3,20 +3,23 @@ import jwt from "jsonwebtoken";
 // Config
 import env from "../../config/env.config.js";
 
-// Utils
-import { failure } from "../../shared/utils/httpResponse.util.js";
-
 // Types
 import type { NextFunction, Request, Response } from "express";
-import type { AuthUser } from "./auth.type.js";
+import type { AuthUserInterface } from "../types/auth.type.js";
+
+// Errors
+import { UnauthorizedError } from "../errors/errors.js";
+
+/**************************************************
+* Middlewares
+**************************************************/
 
 export function authenticate(req: Request, res: Response, next: NextFunction) {
-  
   
   // Check if Authorization Header exists
   const authHeader = req.headers.authorization;
   if(!authHeader) {
-    return failure(res, 401, "Missing token");
+    throw new UnauthorizedError("Authorization token required");
   }
 
   // Separate JWT token from "Bearer "
@@ -24,13 +27,13 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
 
   // Check if Authorization Header exists
   if(!token) {
-    return failure(res, 401, "Invalid token format");
+    throw new UnauthorizedError("Authorization token required")
   }
 
   try {
 
     // Check if JWT token is valid
-    const decoded = jwt.verify(token, env.JWT_SECRET) as AuthUser;
+    const decoded = jwt.verify(token, env.JWT_SECRET) as AuthUserInterface;
     
     // Add JWT payload to req as 'user' object
     req.user = decoded; // TypeScript doesn't show error here because "user" is added as an optional property to Express's Request type in ./src/shared/declartions/express.d.ts
@@ -38,6 +41,6 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
     next();
   }
   catch(err) {
-    return failure(res, 401, "Invalid token")
+    throw new UnauthorizedError("Invalid token")
   }
 }

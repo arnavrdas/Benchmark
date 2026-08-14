@@ -12,6 +12,10 @@ import { ctlLogin, ctlRegister, authMiddlewareTest } from "./auth.controller.js"
 
 const authRouter = Router();
 
+/**************************************************
+* Routers
+**************************************************/
+
 authRouter.post(
   "/register",
   validate(registerSchema),
