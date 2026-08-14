@@ -1,10 +1,10 @@
 import type { Response } from "express";
 
 export function success(
-  res: Response,
+  res:        Response,
   statusCode: number,
-  message: string,
-  data?: unknown,
+  message:    string,
+  data:       unknown   = null,
 ) {
   return res.status(statusCode).json({
     success: true,
@@ -14,10 +14,10 @@ export function success(
 }
 
 export function failure(
-  res: Response,
+  res:        Response,
   statusCode: number,
-  message: string,
-  errors?: unknown,
+  message:    string,
+  errors:     unknown   = null,
 ) {
   return res.status(statusCode).json({
     success: false,

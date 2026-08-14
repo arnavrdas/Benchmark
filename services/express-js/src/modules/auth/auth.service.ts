@@ -1,16 +1,16 @@
-import { v4 as uuid } from "uuid"
-import jwt from "jsonwebtoken"
+import { v4 as uuid } from "uuid";
+import jwt from "jsonwebtoken";
 
 // Config
-import env from "../../config/env.config.js"
+import env from "../../config/env.config.js";
 
 // Constants
-import { users } from "../../shared/constants/user.constant.js"
+import { users } from "../../shared/constants/user.constant.js";
 
 // Types
-import type { registerRequest, loginRequest } from "./auth.schemas.js"
-import type { userInterface } from "../../shared/types/user.type.js"
-import type { SignOptions } from "jsonwebtoken"
+import type { registerRequest, loginRequest } from "./auth.schemas.js";
+import type { userInterface } from "../../shared/types/user.type.js";
+import type { SignOptions } from "jsonwebtoken";
 
 export async function svcFindUser(req: registerRequest | loginRequest) {
 
@@ -53,7 +53,6 @@ export async function svcCheckPassword(givenPassword: string, user: userInterfac
 
 export async function svcGenerateToken(user: userInterface) {
 
-  // 
   const options: SignOptions = {
     expiresIn: env.JWT_EXPIRES_IN
   }
